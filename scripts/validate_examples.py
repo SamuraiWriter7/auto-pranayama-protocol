@@ -1,4 +1,3 @@
-Update scripts/validate_examples.py
 from pathlib import Path
 
 import json
