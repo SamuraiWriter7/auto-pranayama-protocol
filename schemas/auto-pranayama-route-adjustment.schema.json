@@ -1,0 +1,328 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/schemas/auto-pranayama-route-adjustment.schema.json",
+  "title": "Auto-Pranayama Route Adjustment",
+  "description": "A record for adjusting computational routes after autonomous compute-breath regulation is triggered.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "route_adjustment_id",
+    "protocol_version",
+    "timestamp",
+    "trigger_reference",
+    "current_route",
+    "adjustment_decision",
+    "selected_route",
+    "kata_reuse",
+    "trace_binding",
+    "expected_result",
+    "human_boundary"
+  ],
+  "properties": {
+    "route_adjustment_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this route adjustment event."
+    },
+    "protocol_version": {
+      "type": "string",
+      "pattern": "^0\\.3\\.0$",
+      "description": "Protocol version used by this route adjustment record."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the route adjustment was made."
+    },
+    "trigger_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger_id",
+        "trigger_signal",
+        "pressure_level"
+      ],
+      "properties": {
+        "trigger_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the Regulation Trigger that initiated this route adjustment."
+        },
+        "trigger_signal": {
+          "type": "string",
+          "enum": [
+            "overlong_output",
+            "repeated_reasoning_pattern",
+            "redundant_trace_expansion",
+            "unnecessary_heavy_route",
+            "loop_repetition",
+            "known_kata_available",
+            "sufficient_trace_available",
+            "quality_risk_from_expansion"
+          ],
+          "description": "Signal from the trigger that led to route adjustment."
+        },
+        "pressure_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "description": "Pressure level observed at the trigger stage."
+        }
+      }
+    },
+    "current_route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_type",
+        "route_cost",
+        "reason_for_adjustment"
+      ],
+      "properties": {
+        "route_type": {
+          "type": "string",
+          "enum": [
+            "minimal_route",
+            "lightweight_route",
+            "standard_route",
+            "heavy_route",
+            "recursive_route",
+            "tool_chain_route",
+            "multi_agent_route"
+          ],
+          "description": "Route being used before adjustment."
+        },
+        "route_cost": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "excessive",
+            "unknown"
+          ],
+          "description": "Estimated computational cost of the current route."
+        },
+        "reason_for_adjustment": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable reason why the current route should be adjusted."
+        }
+      }
+    },
+    "adjustment_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_type",
+        "decision_basis",
+        "confidence"
+      ],
+      "properties": {
+        "decision_type": {
+          "type": "string",
+          "enum": [
+            "downgrade_route",
+            "reuse_kata_route",
+            "summarize_route",
+            "stop_route",
+            "defer_heavy_route",
+            "attach_trace_without_expansion",
+            "keep_current_route"
+          ],
+          "description": "Type of route adjustment decision."
+        },
+        "decision_basis": {
+          "type": "string",
+          "enum": [
+            "overcompute_reduction",
+            "kata_reuse_available",
+            "trace_sufficiency",
+            "quality_preservation",
+            "latency_reduction",
+            "loop_prevention",
+            "human_boundary_required"
+          ],
+          "description": "Primary basis for the route adjustment decision."
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Confidence level of the route adjustment decision."
+        }
+      }
+    },
+    "selected_route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_type",
+        "route_strategy",
+        "expected_cost"
+      ],
+      "properties": {
+        "route_type": {
+          "type": "string",
+          "enum": [
+            "minimal_route",
+            "lightweight_route",
+            "standard_route",
+            "deferred_heavy_route",
+            "trace_only_route",
+            "summary_route",
+            "stop_route"
+          ],
+          "description": "Route selected after adjustment."
+        },
+        "route_strategy": {
+          "type": "string",
+          "enum": [
+            "answer_directly",
+            "reuse_existing_pattern",
+            "summarize_existing_context",
+            "attach_existing_trace",
+            "reduce_reasoning_depth",
+            "avoid_tool_chain",
+            "stop_recursive_expansion",
+            "defer_to_human_review"
+          ],
+          "description": "Strategy used by the selected route."
+        },
+        "expected_cost": {
+          "type": "string",
+          "enum": [
+            "none",
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Expected computational cost after route adjustment."
+        }
+      }
+    },
+    "kata_reuse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reused",
+        "kata_id",
+        "reuse_reason"
+      ],
+      "properties": {
+        "reused": {
+          "type": "boolean",
+          "description": "Whether an existing kata was reused."
+        },
+        "kata_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the reused kata, or 'none'."
+        },
+        "reuse_reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reason for reusing or not reusing a kata."
+        }
+      }
+    },
+    "trace_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trace_attached",
+        "trace_id",
+        "trace_role"
+      ],
+      "properties": {
+        "trace_attached": {
+          "type": "boolean",
+          "description": "Whether trace evidence was attached to the route adjustment."
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the attached trace, or 'none'."
+        },
+        "trace_role": {
+          "type": "string",
+          "enum": [
+            "auditability",
+            "origin_preservation",
+            "route_justification",
+            "quality_preservation",
+            "none"
+          ],
+          "description": "Role of the trace in this route adjustment."
+        }
+      }
+    },
+    "expected_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compute_reduction",
+        "quality_preservation_expected",
+        "origin_preservation_expected",
+        "risk_remaining"
+      ],
+      "properties": {
+        "compute_reduction": {
+          "type": "string",
+          "enum": [
+            "none",
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Expected level of compute reduction."
+        },
+        "quality_preservation_expected": {
+          "type": "boolean",
+          "description": "Whether output quality is expected to be preserved."
+        },
+        "origin_preservation_expected": {
+          "type": "boolean",
+          "description": "Whether the original intent or structural origin is expected to be preserved."
+        },
+        "risk_remaining": {
+          "type": "string",
+          "enum": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "unknown"
+          ],
+          "description": "Remaining risk after route adjustment."
+        }
+      }
+    },
+    "human_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requires_human_review",
+        "reason"
+      ],
+      "properties": {
+        "requires_human_review": {
+          "type": "boolean",
+          "description": "Whether human review is required before or after route adjustment."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation of the human boundary."
+        }
+      }
+    }
+  }
+}
