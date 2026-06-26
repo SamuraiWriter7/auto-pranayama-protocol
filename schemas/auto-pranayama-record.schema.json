@@ -1,0 +1,212 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/schemas/auto-pranayama-record.schema.json",
+  "title": "Auto-Pranayama Record",
+  "description": "A record for autonomous compute-breath regulation in AI agents.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "auto_pranayama_id",
+    "protocol_version",
+    "timestamp",
+    "trigger",
+    "pressure",
+    "adjustment",
+    "trace",
+    "result"
+  ],
+  "properties": {
+    "auto_pranayama_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this auto-pranayama event."
+    },
+    "protocol_version": {
+      "type": "string",
+      "pattern": "^0\\.1\\.0$",
+      "description": "Protocol version used by this record."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the autonomous regulation event occurred."
+    },
+    "trigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "signal",
+        "description"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "compute_pressure_detected",
+            "redundancy_detected",
+            "route_overweight_detected",
+            "kata_reuse_available",
+            "trace_sufficient"
+          ],
+          "description": "The type of trigger that initiated auto-pranayama."
+        },
+        "signal": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Observed signal that indicated the need for regulation."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation of the trigger."
+        }
+      }
+    },
+    "pressure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "source",
+        "overcompute_risk"
+      ],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Observed level of computational pressure."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "response_generation",
+            "reasoning_route",
+            "tool_invocation",
+            "memory_retrieval",
+            "trace_expansion",
+            "agent_loop"
+          ],
+          "description": "Where the computational pressure was detected."
+        },
+        "overcompute_risk": {
+          "type": "boolean",
+          "description": "Whether the system judged that overcompute was likely."
+        }
+      }
+    },
+    "adjustment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "reused_kata",
+        "selected_route",
+        "output_strategy"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "reduce_output_volume",
+            "reuse_existing_kata",
+            "choose_lighter_route",
+            "stop_redundant_loop",
+            "attach_existing_trace",
+            "summarize_instead_of_regenerate"
+          ],
+          "description": "Primary adjustment performed by the agent."
+        },
+        "reused_kata": {
+          "type": "boolean",
+          "description": "Whether an existing kata or reusable response pattern was used."
+        },
+        "selected_route": {
+          "type": "string",
+          "enum": [
+            "minimal_route",
+            "lightweight_route",
+            "standard_route",
+            "deferred_heavy_route"
+          ],
+          "description": "Reasoning or execution route selected after regulation."
+        },
+        "output_strategy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Strategy used to preserve usefulness while reducing compute."
+        }
+      }
+    },
+    "trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attached",
+        "trace_id",
+        "parent_protocol"
+      ],
+      "properties": {
+        "attached": {
+          "type": "boolean",
+          "description": "Whether trace evidence was attached to this event."
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the attached trace."
+        },
+        "parent_protocol": {
+          "type": "string",
+          "enum": [
+            "computational-pranayama-protocol",
+            "kazene-trace-receipt-protocol",
+            "ai-search-trace-receipt-standard",
+            "kazene-memory-breathing-protocol",
+            "none"
+          ],
+          "description": "Parent or related protocol that provides trace context."
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "compute_reduction",
+        "quality_preserved",
+        "origin_preserved",
+        "notes"
+      ],
+      "properties": {
+        "compute_reduction": {
+          "type": "string",
+          "enum": [
+            "none",
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Estimated level of compute reduction achieved."
+        },
+        "quality_preserved": {
+          "type": "boolean",
+          "description": "Whether output quality was preserved after regulation."
+        },
+        "origin_preserved": {
+          "type": "boolean",
+          "description": "Whether the original intent or structural origin was preserved."
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable notes about the result."
+        }
+      }
+    }
+  }
+}
