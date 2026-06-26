@@ -1,3 +1,4 @@
+Update scripts/validate_examples.py
 from pathlib import Path
 
 import json
@@ -23,6 +24,11 @@ VALIDATION_TARGETS = [
         "name": "Auto-Pranayama Route Adjustment",
         "schema": ROOT / "schemas" / "auto-pranayama-route-adjustment.schema.json",
         "example": ROOT / "examples" / "auto-pranayama-route-adjustment.example.yaml",
+    },
+    {
+        "name": "Auto-Pranayama Agent Hook",
+        "schema": ROOT / "schemas" / "auto-pranayama-agent-hook.schema.json",
+        "example": ROOT / "examples" / "auto-pranayama-agent-hook.example.yaml",
     },
 ]
 
