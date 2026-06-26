@@ -1,0 +1,49 @@
+agent_hook_id: "agent-hook-001"
+protocol_version: "0.4.0"
+timestamp: "2026-06-27T06:30:00+09:00"
+
+hook_context:
+  agent_id: "auto-pranayama-agent-001"
+  agent_role: "assistant_agent"
+  runtime_environment: "chat_runtime"
+  task_type: "response_generation"
+
+invocation_point:
+  phase: "before_final_output"
+  reason: "The agent detected that the response could be finalized through a shorter route while preserving quality."
+  before_action: "finalize_output"
+
+observed_signal:
+  signal_type: "overlong_output"
+  pressure_level: "medium"
+  confidence: "high"
+
+linked_records:
+  regulation_trigger_id: "regulation-trigger-001"
+  route_adjustment_id: "route-adjustment-001"
+  auto_pranayama_record_id: "auto-pranayama-001"
+
+hook_action:
+  action: "switch_route"
+  emits_record: true
+  next_protocol_object: "auto-pranayama-route-adjustment"
+
+runtime_decision:
+  decision: "reroute"
+  selected_route: "lightweight_route"
+  reason: "The agent selected a lightweight route because the useful answer could be preserved without further expansion."
+
+trace_binding:
+  trace_attached: true
+  trace_id: "trace-agent-hook-001"
+  trace_role: "runtime_decision_evidence"
+
+safety_boundary:
+  requires_human_review: false
+  allowed_to_apply_automatically: true
+  reason: "The hook only reduces output expansion and does not alter safety-critical behavior."
+
+output_contract:
+  quality_must_be_preserved: true
+  origin_must_be_preserved: true
+  overcompute_must_be_reduced: true
