@@ -6,6 +6,90 @@ This repository follows a candidate-release style during early specification dev
 
 ---
 
+## v0.2.0-candidate
+
+### Added
+
+* Added `Auto-Pranayama Regulation Trigger` as the second specification object.
+* Added JSON Schema for regulation trigger detection.
+* Added YAML example for detecting overlong output and recommending compute-breath regulation.
+* Updated validation script to validate both v0.1 and v0.2 examples.
+* Expanded the protocol from passive recordkeeping into active trigger detection.
+* Updated README documentation to reflect the v0.2 Regulation Trigger Layer.
+
+### Concept
+
+v0.2 introduces the **Regulation Trigger Layer**.
+
+Where v0.1 records that autonomous regulation occurred, v0.2 records why regulation should begin.
+
+The core question is:
+
+```text
+When should computation begin regulating its own breath?
+```
+
+Japanese:
+
+```text
+計算は、いつ自らの呼吸を整え始めるべきか？
+```
+
+### Flow Extension
+
+v0.1 defined the self-regulation flow:
+
+```text
+Observe → Detect → Adjust → Reuse → Route → Trace → Preserve
+```
+
+v0.2 focuses on the beginning of that flow:
+
+```text
+Context → Signal → Pressure → Risk → Recommendation → Boundary
+```
+
+Japanese:
+
+```text
+文脈 → 信号 → 圧力 → リスク → 推奨調整 → 境界
+```
+
+### v0.2 Scope
+
+The v0.2 Regulation Trigger captures:
+
+* detection context
+* trigger signal
+* pressure estimate
+* expected risk
+* recommended regulation
+* trace binding
+* human review boundary
+
+### Validation
+
+The validation gate has passed with both specification objects:
+
+* `Auto-Pranayama Record`
+* `Auto-Pranayama Regulation Trigger`
+
+Validation can be run locally with:
+
+```bash
+python scripts/validate_examples.py
+```
+
+GitHub Actions also validates the schemas and examples automatically on push and pull request.
+
+### Status
+
+This is the second candidate release of the protocol.
+
+Auto-Pranayama can now describe not only how regulation occurred, but why regulation was triggered.
+
+---
+
 ## v0.1.0-candidate
 
 ### Added
@@ -71,7 +155,7 @@ The v0.1 `Auto-Pranayama Record` captures:
 
 ### Validation
 
-The repository now includes a working validation gate.
+The repository introduced a working validation gate.
 
 Validation can be run locally with:
 
@@ -83,18 +167,11 @@ GitHub Actions also validates the schema and example automatically on push and p
 
 ### Status
 
-This is the first candidate release of the protocol.
+This was the first candidate release of the protocol.
 
-The v0.1 foundation is intentionally minimal.
+The v0.1 foundation was intentionally minimal.
 
-It does not yet define collective rhythm, exhalation, or distributed synchronization. Those concerns are reserved for related or future protocols.
-
-### Possible Future Versions
-
-* `v0.2` — Regulation Trigger Layer
-* `v0.3` — Route Adjustment Layer
-* `v0.4` — Agent Hook Layer
-* `v0.5` — Parent Protocol Bridge
+It did not yet define collective rhythm, exhalation, or distributed synchronization. Those concerns are reserved for related or future protocols.
 
 ---
 
@@ -102,7 +179,7 @@ It does not yet define collective rhythm, exhalation, or distributed synchroniza
 
 ### Planned
 
-* Expand trigger categories for autonomous regulation.
+* Add v0.3 Route Adjustment Layer.
 * Add additional examples for route switching, kata reuse, trace sufficiency, and redundant loop stopping.
 * Define agent-facing hooks for runtime detection of overcompute.
 * Clarify relationship with `computational-pranayama-protocol`.
