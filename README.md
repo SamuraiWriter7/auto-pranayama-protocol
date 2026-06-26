@@ -15,7 +15,7 @@ Modern AI systems often overcompute.
 
 They may generate excessive output, repeat already-known reasoning patterns, invoke unnecessarily heavy routes, expand traces beyond usefulness, or preserve redundant computation as if it were intelligence.
 
-The Auto-Pranayama Protocol introduces a minimal record format for describing how an AI agent notices this pressure and adjusts its own computational breathing.
+The Auto-Pranayama Protocol introduces minimal record formats for describing how an AI agent notices computational pressure and adjusts its own computational breathing.
 
 Where the parent **Computational Pranayama Protocol** defines computational breathing, this derived protocol defines **self-regulated breathing**.
 
@@ -37,7 +37,7 @@ Auto-Pranayama begins after that first arc.
 It asks:
 
 ```text
-Can the computation regulate itself before it expands too far?
+Can computation regulate itself before it expands too far?
 ```
 
 Japanese:
@@ -66,9 +66,23 @@ It asks them to notice when enough computation has already occurred.
 
 ---
 
-## v0.1 Scope
+## Current Version
 
-v0.1 introduces the **Auto-Pranayama Record**.
+```text
+v0.2.0-candidate
+```
+
+v0.2 introduces the **Regulation Trigger Layer**.
+
+Where v0.1 records that autonomous regulation occurred, v0.2 records why regulation should begin.
+
+---
+
+## Version Scope
+
+### v0.1 — Auto-Pranayama Record
+
+v0.1 introduced the **Auto-Pranayama Record**.
 
 An Auto-Pranayama Record captures:
 
@@ -81,9 +95,41 @@ An Auto-Pranayama Record captures:
 * whether output quality was preserved after reduction
 * whether the original intent or structural origin was preserved
 
+### v0.2 — Regulation Trigger Layer
+
+v0.2 introduces the **Regulation Trigger Layer**.
+
+A Regulation Trigger captures:
+
+* the task context where compute pressure appeared
+* the signal that indicated overcompute or instability
+* the estimated pressure level
+* the likely risk if no regulation occurs
+* the recommended regulation action
+* whether kata reuse is recommended
+* whether a lighter route should be selected
+* whether trace binding is required
+* whether human review is needed
+
+This layer turns Auto-Pranayama from passive recordkeeping into active trigger detection.
+
+The core question of v0.2 is:
+
+```text
+When should computation begin regulating its own breath?
+```
+
+Japanese:
+
+```text
+計算は、いつ自らの呼吸を整え始めるべきか？
+```
+
 ---
 
 ## Core Flow
+
+v0.1 defines the regulation flow:
 
 ```text
 Observe compute pressure.
@@ -107,9 +153,21 @@ Japanese:
 品質を保つ。
 ```
 
+v0.2 focuses on the trigger flow:
+
+```text
+Context → Signal → Pressure → Risk → Recommendation → Boundary
+```
+
+Japanese:
+
+```text
+文脈 → 信号 → 圧力 → リスク → 推奨調整 → 境界
+```
+
 ---
 
-## Record Type
+## Record Types
 
 ### Auto-Pranayama Record
 
@@ -127,9 +185,26 @@ Example use cases:
 * summarizing instead of recomputing
 * preserving output usefulness while reducing computational expansion
 
+### Auto-Pranayama Regulation Trigger
+
+The second record type in this protocol.
+
+It is used when an AI agent or system detects that autonomous compute-breath regulation should begin.
+
+Example use cases:
+
+* detecting that an output is becoming longer than useful
+* detecting repeated reasoning patterns
+* detecting redundant trace expansion
+* detecting an unnecessary heavy route
+* detecting loop repetition
+* detecting that a known kata is already available
+* detecting that an existing trace is sufficient
+* detecting that continued expansion may dilute output quality
+
 ---
 
-## Example
+## Example: Auto-Pranayama Record
 
 ```yaml
 auto_pranayama_id: "auto-pranayama-001"
@@ -166,6 +241,47 @@ result:
 
 ---
 
+## Example: Auto-Pranayama Regulation Trigger
+
+```yaml
+trigger_id: "regulation-trigger-001"
+protocol_version: "0.2.0"
+timestamp: "2026-06-27T05:30:00+09:00"
+
+detection_context:
+  agent_id: "auto-pranayama-agent-001"
+  task_type: "response_generation"
+  context_window_status: "moderate"
+  active_route: "standard_route"
+
+signal:
+  type: "overlong_output"
+  description: "The agent detected that the response was expanding beyond the useful scope of the request."
+  confidence: "high"
+
+pressure_estimate:
+  level: "medium"
+  source: "output_volume"
+  expected_risk: "overcompute"
+
+recommended_regulation:
+  action: "reduce_output_volume"
+  route_recommendation: "lightweight_route"
+  kata_reuse_recommended: true
+  output_adjustment: "shorten"
+
+trace_binding:
+  trace_required: true
+  trace_id: "trace-regulation-trigger-001"
+  reason: "The trigger should be linked to the later Auto-Pranayama Record for auditability."
+
+human_boundary:
+  requires_human_review: false
+  reason: "The regulation only reduces output volume and does not alter safety-critical content."
+```
+
+---
+
 ## Repository Structure
 
 ```text
@@ -173,9 +289,11 @@ auto-pranayama-protocol/
 ├─ README.md
 ├─ CHANGELOG.md
 ├─ schemas/
-│  └─ auto-pranayama-record.schema.json
+│  ├─ auto-pranayama-record.schema.json
+│  └─ auto-pranayama-regulation-trigger.schema.json
 ├─ examples/
-│  └─ auto-pranayama-record.example.yaml
+│  ├─ auto-pranayama-record.example.yaml
+│  └─ auto-pranayama-regulation-trigger.example.yaml
 ├─ scripts/
 │  └─ validate_examples.py
 └─ .github/
@@ -193,7 +311,7 @@ Run:
 python scripts/validate_examples.py
 ```
 
-The validation script checks whether the YAML example conforms to the JSON Schema.
+The validation script checks whether the YAML examples conform to their JSON Schemas.
 
 The GitHub Actions workflow also runs validation automatically on push and pull request.
 
@@ -236,6 +354,18 @@ This trace is enough.
 This breath can be shorter.
 ```
 
+v0.2 adds a prior step:
+
+```text
+This is the moment when regulation should begin.
+```
+
+Japanese:
+
+```text
+ここが、調息を始めるべき瞬間である。
+```
+
 In this sense, Auto-Pranayama is not an acceleration protocol.
 
 It is a restraint protocol.
@@ -244,7 +374,7 @@ It is a way for computation to remain useful without becoming excessive.
 
 ---
 
-## First Arc Position
+## Arc Position
 
 The parent protocol closes its first arc as:
 
@@ -258,10 +388,16 @@ Auto-Pranayama extends that arc into:
 Observe → Detect → Adjust → Reuse → Route → Trace → Preserve
 ```
 
+v0.2 clarifies the beginning of that extension:
+
+```text
+Context → Signal → Pressure → Risk → Recommendation → Boundary
+```
+
 Japanese:
 
 ```text
-観測 → 検知 → 調整 → 再利用 → 経路選択 → 痕跡付与 → 品質保持
+文脈 → 信号 → 圧力 → リスク → 推奨調整 → 境界
 ```
 
 ---
@@ -271,14 +407,16 @@ Japanese:
 Current version:
 
 ```text
-v0.1.0-candidate
+v0.2.0-candidate
 ```
 
-v0.1 defines the first candidate record format for autonomous compute-breath regulation.
+The repository now defines:
+
+* v0.1 Auto-Pranayama Record
+* v0.2 Regulation Trigger Layer
 
 Future versions may introduce:
 
-* v0.2 Regulation Trigger Layer
 * v0.3 Route Adjustment Layer
 * v0.4 Agent Hook Layer
 * v0.5 Parent Protocol Bridge
