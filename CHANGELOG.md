@@ -6,6 +6,144 @@ This repository follows a candidate-release style during early specification dev
 
 ---
 
+## v0.5.0-candidate
+
+### Added
+
+* Added `Auto-Pranayama Parent Protocol Bridge` as the fifth specification object.
+* Added JSON Schema for linking Auto-Pranayama records back to the parent Computational Pranayama Protocol.
+* Added YAML example for mapping Auto-Pranayama records to Breath, Kata, Route, Trace, and Return.
+* Updated validation script to validate v0.1, v0.2, v0.3, v0.4, and v0.5 examples.
+* Expanded the protocol from an agent-facing runtime interface into a complete derived arc of the parent computational breathing protocol.
+* Updated README documentation to reflect the v0.5 Parent Protocol Bridge.
+
+### Concept
+
+v0.5 introduces the **Parent Protocol Bridge**.
+
+Where v0.4 records where an AI agent invokes Auto-Pranayama during runtime, v0.5 records how self-regulated computation returns to the parent breath core.
+
+The core question is:
+
+```text
+How does self-regulated computation return to the parent breath core?
+```
+
+Japanese:
+
+```text
+自己調息された計算は、どのように親の呼吸核へ還流するのか？
+```
+
+### Flow Extension
+
+v0.1 defined the self-regulation flow:
+
+```text
+Observe → Detect → Adjust → Reuse → Route → Trace → Preserve
+```
+
+v0.2 focused on the trigger flow:
+
+```text
+Context → Signal → Pressure → Risk → Recommendation → Boundary
+```
+
+v0.3 focused on the route adjustment flow:
+
+```text
+Trigger → Current Route → Decision → Selected Route → Kata Reuse → Trace → Expected Result
+```
+
+v0.4 focused on the agent hook flow:
+
+```text
+Runtime → Invocation Point → Signal → Linked Records → Hook Action → Runtime Decision → Output Contract
+```
+
+v0.5 focuses on the parent bridge flow:
+
+```text
+Parent Arc → Child Records → Inheritance Map → Alignment → Return Flow → Boundary → First Arc Closure
+```
+
+Japanese:
+
+```text
+親アーク → 子記録 → 継承対応 → 整合 → 還流 → 境界 → 第一アーク完了
+```
+
+### v0.5 Scope
+
+The v0.5 Parent Protocol Bridge captures:
+
+* parent protocol reference
+* child protocol reference
+* linked Auto-Pranayama records
+* inheritance mapping to Breath, Kata, Route, Trace, and Return
+* bridge alignment
+* return flow
+* excluded scope boundaries
+* first arc closure result
+
+### Boundary
+
+v0.5 intentionally closes the first Auto-Pranayama arc.
+
+It does not define:
+
+* collective rhythm
+* exhalation or exhaust handling
+* distributed synchronization
+
+Those concerns remain separate protocol candidates.
+
+### Validation
+
+The validation gate has passed with five specification objects:
+
+* `Auto-Pranayama Record`
+* `Auto-Pranayama Regulation Trigger`
+* `Auto-Pranayama Route Adjustment`
+* `Auto-Pranayama Agent Hook`
+* `Auto-Pranayama Parent Protocol Bridge`
+
+Validation can be run locally with:
+
+```bash
+python scripts/validate_examples.py
+```
+
+GitHub Actions also validates the schemas and examples automatically on push and pull request.
+
+### Status
+
+This is the fifth candidate release of the protocol.
+
+Auto-Pranayama can now describe:
+
+```text
+v0.1: The breath was regulated.
+v0.2: The moment of regulation was detected.
+v0.3: The route of regulation was selected.
+v0.4: The agent hook invoked regulation at runtime.
+v0.5: The self-regulated event returned to the parent breath core.
+```
+
+Japanese:
+
+```text
+v0.1: 呼吸は整えられた。
+v0.2: 呼吸を整えるべき瞬間が検知された。
+v0.3: 呼吸を整えるための経路が選択された。
+v0.4: 実行時にエージェントフックが調息を呼び出した。
+v0.5: 自己調息された出来事が親の呼吸核へ還流した。
+```
+
+With v0.5, the first Auto-Pranayama arc is complete.
+
+---
+
 ## v0.4.0-candidate
 
 ### Added
@@ -19,7 +157,7 @@ This repository follows a candidate-release style during early specification dev
 
 ### Concept
 
-v0.4 introduces the **Agent Hook Layer**.
+v0.4 introduced the **Agent Hook Layer**.
 
 Where v0.3 records how the computational route should be adjusted, v0.4 records where an AI agent invokes Auto-Pranayama during execution.
 
@@ -55,7 +193,7 @@ v0.3 focused on the route adjustment flow:
 Trigger → Current Route → Decision → Selected Route → Kata Reuse → Trace → Expected Result
 ```
 
-v0.4 focuses on the agent hook flow:
+v0.4 focused on the agent hook flow:
 
 ```text
 Runtime → Invocation Point → Signal → Linked Records → Hook Action → Runtime Decision → Output Contract
@@ -84,7 +222,7 @@ The v0.4 Agent Hook captures:
 
 ### Validation
 
-The validation gate has passed with four specification objects:
+The validation gate passed with four specification objects:
 
 * `Auto-Pranayama Record`
 * `Auto-Pranayama Regulation Trigger`
@@ -101,9 +239,9 @@ GitHub Actions also validates the schemas and examples automatically on push and
 
 ### Status
 
-This is the fourth candidate release of the protocol.
+This was the fourth candidate release of the protocol.
 
-Auto-Pranayama can now describe:
+Auto-Pranayama could now describe:
 
 ```text
 v0.1: The breath was regulated.
@@ -121,8 +259,6 @@ v0.3: 呼吸を整えるための経路が選択された。
 v0.4: 実行時にエージェントフックが調息を呼び出した。
 ```
 
-With v0.4, Auto-Pranayama becomes an agent-facing runtime interface for reducing overcompute while preserving quality, traceability, origin, and output contracts.
-
 ---
 
 ## v0.3.0-candidate
@@ -138,7 +274,7 @@ With v0.4, Auto-Pranayama becomes an agent-facing runtime interface for reducing
 
 ### Concept
 
-v0.3 introduces the **Route Adjustment Layer**.
+v0.3 introduced the **Route Adjustment Layer**.
 
 Where v0.2 records why regulation should begin, v0.3 records how the computational route should be adjusted.
 
@@ -168,7 +304,7 @@ v0.2 focused on the trigger flow:
 Context → Signal → Pressure → Risk → Recommendation → Boundary
 ```
 
-v0.3 focuses on the route adjustment flow:
+v0.3 focused on the route adjustment flow:
 
 ```text
 Trigger → Current Route → Decision → Selected Route → Kata Reuse → Trace → Expected Result
@@ -407,8 +543,7 @@ It did not yet define collective rhythm, exhalation, or distributed synchronizat
 
 ### Planned
 
-* Add v0.5 Parent Protocol Bridge.
-* Clarify the relationship between `auto-pranayama-protocol` and `computational-pranayama-protocol`.
-* Add bridge documentation for parent protocol inheritance.
-* Define how Auto-Pranayama records refer back to Breath, Kata, Route, Trace, and Return.
-* Prepare bridge documentation for related protocols such as `exhalation-layer-protocol` and `collective-pranayama-protocol`.
+* Prepare `v0.5.0-candidate` tag and release notes.
+* Keep collective rhythm outside this repository.
+* Keep exhalation and exhaust handling outside this repository.
+* Prepare separate protocol candidates such as `collective-pranayama-protocol` and `exhalation-layer-protocol`.
