@@ -29,6 +29,11 @@ VALIDATION_TARGETS = [
         "schema": ROOT / "schemas" / "auto-pranayama-agent-hook.schema.json",
         "example": ROOT / "examples" / "auto-pranayama-agent-hook.example.yaml",
     },
+    {
+        "name": "Auto-Pranayama Parent Protocol Bridge",
+        "schema": ROOT / "schemas" / "auto-pranayama-parent-bridge.schema.json",
+        "example": ROOT / "examples" / "auto-pranayama-parent-bridge.example.yaml",
+    },
 ]
 
 
