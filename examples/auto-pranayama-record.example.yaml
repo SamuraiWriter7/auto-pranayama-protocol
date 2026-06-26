@@ -1,0 +1,30 @@
+auto_pranayama_id: "auto-pranayama-001"
+protocol_version: "0.1.0"
+timestamp: "2026-06-27T05:00:00+09:00"
+
+trigger:
+  type: "compute_pressure_detected"
+  signal: "overlong_output"
+  description: "The agent detected that the requested response could be answered through a reusable kata instead of full recomputation."
+
+pressure:
+  level: "medium"
+  source: "response_generation"
+  overcompute_risk: true
+
+adjustment:
+  action: "reduce_output_volume"
+  reused_kata: true
+  selected_route: "lightweight_route"
+  output_strategy: "concise_structured_response"
+
+trace:
+  attached: true
+  trace_id: "trace-auto-pranayama-001"
+  parent_protocol: "computational-pranayama-protocol"
+
+result:
+  compute_reduction: "medium"
+  quality_preserved: true
+  origin_preserved: true
+  notes: "The response was shortened while preserving the original structural intent."
