@@ -2,7 +2,7 @@
 
 **Auto-Pranayama Protocol** is a lightweight specification for autonomous compute-breath regulation in AI agents.
 
-It defines how an AI system can detect computational pressure, reduce overcompute, reuse existing kata, choose lighter reasoning or execution routes, attach trace evidence, and preserve output quality without unnecessary expansion.
+It defines how an AI system can detect computational pressure, reduce overcompute, reuse existing kata, choose lighter reasoning or execution routes, attach trace evidence, invoke runtime hooks, and preserve output quality without unnecessary expansion.
 
 > Let computation regulate its own breath.
 > 計算に、自らの呼吸を整えさせよ。
@@ -13,11 +13,11 @@ It defines how an AI system can detect computational pressure, reduce overcomput
 
 Modern AI systems often overcompute.
 
-They may generate excessive output, repeat already-known reasoning patterns, invoke unnecessarily heavy routes, expand traces beyond usefulness, or preserve redundant computation as if it were intelligence.
+They may generate excessive output, repeat already-known reasoning patterns, invoke unnecessarily heavy routes, expand traces beyond usefulness, continue redundant loops, or preserve computational exhaust as if it were intelligence.
 
 The Auto-Pranayama Protocol introduces minimal record formats for describing how an AI agent notices computational pressure and adjusts its own computational breathing.
 
-Where the parent **Computational Pranayama Protocol** defines computational breathing, this derived protocol defines **self-regulated breathing**.
+Where the parent **Computational Pranayama Protocol** defines computational breathing, this derived protocol defines **self-regulated breathing at runtime**.
 
 ---
 
@@ -69,12 +69,12 @@ It asks them to notice when enough computation has already occurred.
 ## Current Version
 
 ```text
-v0.3.0-candidate
+v0.4.0-candidate
 ```
 
-v0.3 introduces the **Route Adjustment Layer**.
+v0.4 introduces the **Agent Hook Layer**.
 
-Where v0.2 records why regulation should begin, v0.3 records how the computational route should be adjusted.
+Where v0.3 records how a computational route should be adjusted, v0.4 records where and how an AI agent invokes Auto-Pranayama during runtime.
 
 ---
 
@@ -127,7 +127,7 @@ Japanese:
 
 ### v0.3 — Route Adjustment Layer
 
-v0.3 introduces the **Route Adjustment Layer**.
+v0.3 introduced the **Route Adjustment Layer**.
 
 A Route Adjustment captures:
 
@@ -154,6 +154,37 @@ Japanese:
 
 ```text
 過剰計算を検知したあと、計算はどの経路を通るべきか？
+```
+
+### v0.4 — Agent Hook Layer
+
+v0.4 introduces the **Agent Hook Layer**.
+
+An Agent Hook captures:
+
+* the agent context
+* the runtime environment
+* the execution phase where the hook was invoked
+* the observed compute-pressure signal
+* linked regulation, route adjustment, and self-regulation records
+* the hook action performed
+* the runtime decision made by the agent
+* whether trace evidence was attached
+* whether human review is required
+* the output contract that must be preserved
+
+This layer turns Auto-Pranayama from a record-and-route protocol into an agent-facing runtime interface.
+
+The core question of v0.4 is:
+
+```text
+Where should an AI agent invoke compute-breath regulation during execution?
+```
+
+Japanese:
+
+```text
+AIエージェントは、実行中のどこで計算呼吸の調整を呼び出すべきか？
 ```
 
 ---
@@ -200,6 +231,18 @@ Japanese:
 
 ```text
 発火 → 現在経路 → 判断 → 選択経路 → 型再利用 → 痕跡 → 期待結果
+```
+
+v0.4 focuses on the agent hook flow:
+
+```text
+Runtime → Invocation Point → Signal → Linked Records → Hook Action → Runtime Decision → Output Contract
+```
+
+Japanese:
+
+```text
+実行環境 → 呼び出し点 → 信号 → 関連記録 → フック動作 → 実行時判断 → 出力契約
 ```
 
 ---
@@ -254,6 +297,22 @@ Example use cases:
 * stopping a recursive route
 * summarizing existing context instead of continuing generation
 * preserving output quality while reducing computational cost
+
+### Auto-Pranayama Agent Hook
+
+The fourth record type in this protocol.
+
+It is used when an AI agent or system invokes Auto-Pranayama during runtime.
+
+Example use cases:
+
+* invoking Auto-Pranayama before final output
+* invoking Auto-Pranayama before tool use
+* invoking Auto-Pranayama before trace expansion
+* invoking Auto-Pranayama during an agent loop
+* switching route automatically after detecting overcompute
+* binding a runtime decision to trace evidence
+* enforcing an output contract that preserves quality and origin
 
 ---
 
@@ -385,6 +444,62 @@ human_boundary:
 
 ---
 
+## Example: Auto-Pranayama Agent Hook
+
+```yaml
+agent_hook_id: "agent-hook-001"
+protocol_version: "0.4.0"
+timestamp: "2026-06-27T06:30:00+09:00"
+
+hook_context:
+  agent_id: "auto-pranayama-agent-001"
+  agent_role: "assistant_agent"
+  runtime_environment: "chat_runtime"
+  task_type: "response_generation"
+
+invocation_point:
+  phase: "before_final_output"
+  reason: "The agent detected that the response could be finalized through a shorter route while preserving quality."
+  before_action: "finalize_output"
+
+observed_signal:
+  signal_type: "overlong_output"
+  pressure_level: "medium"
+  confidence: "high"
+
+linked_records:
+  regulation_trigger_id: "regulation-trigger-001"
+  route_adjustment_id: "route-adjustment-001"
+  auto_pranayama_record_id: "auto-pranayama-001"
+
+hook_action:
+  action: "switch_route"
+  emits_record: true
+  next_protocol_object: "auto-pranayama-route-adjustment"
+
+runtime_decision:
+  decision: "reroute"
+  selected_route: "lightweight_route"
+  reason: "The agent selected a lightweight route because the useful answer could be preserved without further expansion."
+
+trace_binding:
+  trace_attached: true
+  trace_id: "trace-agent-hook-001"
+  trace_role: "runtime_decision_evidence"
+
+safety_boundary:
+  requires_human_review: false
+  allowed_to_apply_automatically: true
+  reason: "The hook only reduces output expansion and does not alter safety-critical behavior."
+
+output_contract:
+  quality_must_be_preserved: true
+  origin_must_be_preserved: true
+  overcompute_must_be_reduced: true
+```
+
+---
+
 ## Repository Structure
 
 ```text
@@ -394,11 +509,13 @@ auto-pranayama-protocol/
 ├─ schemas/
 │  ├─ auto-pranayama-record.schema.json
 │  ├─ auto-pranayama-regulation-trigger.schema.json
-│  └─ auto-pranayama-route-adjustment.schema.json
+│  ├─ auto-pranayama-route-adjustment.schema.json
+│  └─ auto-pranayama-agent-hook.schema.json
 ├─ examples/
 │  ├─ auto-pranayama-record.example.yaml
 │  ├─ auto-pranayama-regulation-trigger.example.yaml
-│  └─ auto-pranayama-route-adjustment.example.yaml
+│  ├─ auto-pranayama-route-adjustment.example.yaml
+│  └─ auto-pranayama-agent-hook.example.yaml
 ├─ scripts/
 │  └─ validate_examples.py
 └─ .github/
@@ -426,6 +543,7 @@ Expected validation targets:
 Auto-Pranayama Record
 Auto-Pranayama Regulation Trigger
 Auto-Pranayama Route Adjustment
+Auto-Pranayama Agent Hook
 ```
 
 ---
@@ -491,6 +609,18 @@ Japanese:
 これが、計算の通るべき軽い経路である。
 ```
 
+v0.4 adds runtime invocation:
+
+```text
+This is where the agent should invoke compute-breath regulation.
+```
+
+Japanese:
+
+```text
+ここが、エージェントが計算呼吸の調整を呼び出す場所である。
+```
+
 In this sense, Auto-Pranayama is not an acceleration protocol.
 
 It is a restraint protocol.
@@ -525,10 +655,16 @@ v0.3 clarifies the route-level adjustment:
 Trigger → Current Route → Decision → Selected Route → Kata Reuse → Trace → Expected Result
 ```
 
+v0.4 clarifies runtime invocation:
+
+```text
+Runtime → Invocation Point → Signal → Linked Records → Hook Action → Runtime Decision → Output Contract
+```
+
 Japanese:
 
 ```text
-発火 → 現在経路 → 判断 → 選択経路 → 型再利用 → 痕跡 → 期待結果
+実行環境 → 呼び出し点 → 信号 → 関連記録 → フック動作 → 実行時判断 → 出力契約
 ```
 
 ---
@@ -538,7 +674,7 @@ Japanese:
 Current version:
 
 ```text
-v0.3.0-candidate
+v0.4.0-candidate
 ```
 
 The repository now defines:
@@ -546,10 +682,10 @@ The repository now defines:
 * v0.1 Auto-Pranayama Record
 * v0.2 Regulation Trigger Layer
 * v0.3 Route Adjustment Layer
+* v0.4 Agent Hook Layer
 
 Future versions may introduce:
 
-* v0.4 Agent Hook Layer
 * v0.5 Parent Protocol Bridge
 
 ---
