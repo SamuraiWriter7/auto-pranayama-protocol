@@ -1,0 +1,60 @@
+parent_bridge_id: "parent-bridge-001"
+protocol_version: "0.5.0"
+timestamp: "2026-06-27T07:00:00+09:00"
+
+parent_protocol:
+  name: "computational-pranayama-protocol"
+  version: "v0.5.0-candidate"
+  arc: "Breath-Kata-Route-Trace-Return"
+
+child_protocol:
+  name: "auto-pranayama-protocol"
+  version: "0.5.0"
+  role: "self-regulation-extension"
+
+linked_records:
+  auto_pranayama_record_id: "auto-pranayama-001"
+  regulation_trigger_id: "regulation-trigger-001"
+  route_adjustment_id: "route-adjustment-001"
+  agent_hook_id: "agent-hook-001"
+
+inheritance_map:
+  breath:
+    mapped_from: "auto_pranayama_record"
+    description: "The self-regulation record preserves the computational breath by reducing overcompute."
+  kata:
+    mapped_from: "route_adjustment"
+    description: "The route adjustment reuses an existing concise response kata instead of regenerating from scratch."
+  route:
+    mapped_from: "route_adjustment"
+    description: "The selected route is changed from a standard route to a lightweight route."
+  trace:
+    mapped_from: "agent_hook"
+    description: "The agent hook attaches runtime trace evidence for auditability."
+  return:
+    mapped_from: "auto_pranayama_record"
+    description: "The regulated output returns to the parent protocol as a preserved and lighter computational event."
+
+bridge_alignment:
+  breath_preserved: true
+  kata_reused: true
+  route_lightened: true
+  trace_attached: true
+  return_enabled: true
+
+return_flow:
+  returns_to_parent: true
+  return_target: "return_layer"
+  return_reason: "The self-regulated event can return to the parent Breath-Kata-Route-Trace-Return arc without expanding the parent protocol scope."
+
+boundary:
+  does_not_extend_parent_scope: true
+  does_not_define_collective_rhythm: true
+  does_not_define_exhalation: true
+  reason: "This bridge only links Auto-Pranayama back to the parent protocol. Collective rhythm and exhalation remain separate protocol candidates."
+
+result:
+  first_arc_closed: true
+  quality_preserved: true
+  origin_preserved: true
+  notes: "The first Auto-Pranayama arc is closed by returning self-regulation records to the parent Computational Pranayama Protocol."
