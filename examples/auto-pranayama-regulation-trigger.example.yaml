@@ -1,0 +1,34 @@
+trigger_id: "regulation-trigger-001"
+protocol_version: "0.2.0"
+timestamp: "2026-06-27T05:30:00+09:00"
+
+detection_context:
+  agent_id: "auto-pranayama-agent-001"
+  task_type: "response_generation"
+  context_window_status: "moderate"
+  active_route: "standard_route"
+
+signal:
+  type: "overlong_output"
+  description: "The agent detected that the response was expanding beyond the useful scope of the request."
+  confidence: "high"
+
+pressure_estimate:
+  level: "medium"
+  source: "output_volume"
+  expected_risk: "overcompute"
+
+recommended_regulation:
+  action: "reduce_output_volume"
+  route_recommendation: "lightweight_route"
+  kata_reuse_recommended: true
+  output_adjustment: "shorten"
+
+trace_binding:
+  trace_required: true
+  trace_id: "trace-regulation-trigger-001"
+  reason: "The trigger should be linked to the later Auto-Pranayama Record for auditability."
+
+human_boundary:
+  requires_human_review: false
+  reason: "The regulation only reduces output volume and does not alter safety-critical content."
