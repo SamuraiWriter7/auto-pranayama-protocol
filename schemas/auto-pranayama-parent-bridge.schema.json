@@ -1,0 +1,392 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/schemas/auto-pranayama-parent-bridge.schema.json",
+  "title": "Auto-Pranayama Parent Protocol Bridge",
+  "description": "A bridge record that links Auto-Pranayama self-regulation records back to the parent Computational Pranayama Protocol.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "parent_bridge_id",
+    "protocol_version",
+    "timestamp",
+    "parent_protocol",
+    "child_protocol",
+    "linked_records",
+    "inheritance_map",
+    "bridge_alignment",
+    "return_flow",
+    "boundary",
+    "result"
+  ],
+  "properties": {
+    "parent_bridge_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this parent protocol bridge record."
+    },
+    "protocol_version": {
+      "type": "string",
+      "pattern": "^0\\.5\\.0$",
+      "description": "Protocol version used by this bridge record."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the parent protocol bridge was created."
+    },
+    "parent_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "arc"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": [
+            "computational-pranayama-protocol"
+          ],
+          "description": "Name of the parent protocol."
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Referenced parent protocol version or candidate version."
+        },
+        "arc": {
+          "type": "string",
+          "enum": [
+            "Breath-Kata-Route-Trace-Return"
+          ],
+          "description": "Parent protocol arc being bridged."
+        }
+      }
+    },
+    "child_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "role"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": [
+            "auto-pranayama-protocol"
+          ],
+          "description": "Name of the child protocol."
+        },
+        "version": {
+          "type": "string",
+          "enum": [
+            "0.5.0"
+          ],
+          "description": "Child protocol version used by this bridge."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "self-regulation-extension"
+          ],
+          "description": "Role of the child protocol relative to the parent protocol."
+        }
+      }
+    },
+    "linked_records": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "auto_pranayama_record_id",
+        "regulation_trigger_id",
+        "route_adjustment_id",
+        "agent_hook_id"
+      ],
+      "properties": {
+        "auto_pranayama_record_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linked Auto-Pranayama Record ID."
+        },
+        "regulation_trigger_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linked Regulation Trigger ID."
+        },
+        "route_adjustment_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linked Route Adjustment ID."
+        },
+        "agent_hook_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linked Agent Hook ID."
+        }
+      }
+    },
+    "inheritance_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "breath",
+        "kata",
+        "route",
+        "trace",
+        "return"
+      ],
+      "properties": {
+        "breath": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mapped_from",
+            "description"
+          ],
+          "properties": {
+            "mapped_from": {
+              "type": "string",
+              "enum": [
+                "auto_pranayama_record",
+                "regulation_trigger",
+                "route_adjustment",
+                "agent_hook"
+              ],
+              "description": "Auto-Pranayama record that maps to the parent Breath layer."
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "description": "How the child record maps to Breath."
+            }
+          }
+        },
+        "kata": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mapped_from",
+            "description"
+          ],
+          "properties": {
+            "mapped_from": {
+              "type": "string",
+              "enum": [
+                "auto_pranayama_record",
+                "regulation_trigger",
+                "route_adjustment",
+                "agent_hook"
+              ],
+              "description": "Auto-Pranayama record that maps to the parent Kata layer."
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "description": "How the child record maps to Kata."
+            }
+          }
+        },
+        "route": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mapped_from",
+            "description"
+          ],
+          "properties": {
+            "mapped_from": {
+              "type": "string",
+              "enum": [
+                "auto_pranayama_record",
+                "regulation_trigger",
+                "route_adjustment",
+                "agent_hook"
+              ],
+              "description": "Auto-Pranayama record that maps to the parent Route layer."
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "description": "How the child record maps to Route."
+            }
+          }
+        },
+        "trace": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mapped_from",
+            "description"
+          ],
+          "properties": {
+            "mapped_from": {
+              "type": "string",
+              "enum": [
+                "auto_pranayama_record",
+                "regulation_trigger",
+                "route_adjustment",
+                "agent_hook"
+              ],
+              "description": "Auto-Pranayama record that maps to the parent Trace layer."
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "description": "How the child record maps to Trace."
+            }
+          }
+        },
+        "return": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mapped_from",
+            "description"
+          ],
+          "properties": {
+            "mapped_from": {
+              "type": "string",
+              "enum": [
+                "auto_pranayama_record",
+                "regulation_trigger",
+                "route_adjustment",
+                "agent_hook"
+              ],
+              "description": "Auto-Pranayama record that maps to the parent Return layer."
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "description": "How the child record maps to Return."
+            }
+          }
+        }
+      }
+    },
+    "bridge_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "breath_preserved",
+        "kata_reused",
+        "route_lightened",
+        "trace_attached",
+        "return_enabled"
+      ],
+      "properties": {
+        "breath_preserved": {
+          "type": "boolean",
+          "description": "Whether the computational breath was preserved or stabilized."
+        },
+        "kata_reused": {
+          "type": "boolean",
+          "description": "Whether an existing kata was reused."
+        },
+        "route_lightened": {
+          "type": "boolean",
+          "description": "Whether the selected route became lighter."
+        },
+        "trace_attached": {
+          "type": "boolean",
+          "description": "Whether trace evidence was attached."
+        },
+        "return_enabled": {
+          "type": "boolean",
+          "description": "Whether the result can return to the parent protocol flow."
+        }
+      }
+    },
+    "return_flow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "returns_to_parent",
+        "return_target",
+        "return_reason"
+      ],
+      "properties": {
+        "returns_to_parent": {
+          "type": "boolean",
+          "description": "Whether this bridge returns the self-regulation event to the parent protocol."
+        },
+        "return_target": {
+          "type": "string",
+          "enum": [
+            "breath_core",
+            "kata_layer",
+            "route_layer",
+            "trace_layer",
+            "return_layer"
+          ],
+          "description": "Parent protocol layer to which the child protocol returns."
+        },
+        "return_reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reason why the child protocol event returns to the selected parent layer."
+        }
+      }
+    },
+    "boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "does_not_extend_parent_scope",
+        "does_not_define_collective_rhythm",
+        "does_not_define_exhalation",
+        "reason"
+      ],
+      "properties": {
+        "does_not_extend_parent_scope": {
+          "type": "boolean",
+          "description": "Whether the bridge avoids expanding the parent protocol beyond its first arc."
+        },
+        "does_not_define_collective_rhythm": {
+          "type": "boolean",
+          "description": "Whether collective rhythm is intentionally excluded from this bridge."
+        },
+        "does_not_define_exhalation": {
+          "type": "boolean",
+          "description": "Whether exhalation and exhaust handling are intentionally excluded from this bridge."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation of the boundary."
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "first_arc_closed",
+        "quality_preserved",
+        "origin_preserved",
+        "notes"
+      ],
+      "properties": {
+        "first_arc_closed": {
+          "type": "boolean",
+          "description": "Whether this bridge closes the first Auto-Pranayama arc."
+        },
+        "quality_preserved": {
+          "type": "boolean",
+          "description": "Whether output quality was preserved."
+        },
+        "origin_preserved": {
+          "type": "boolean",
+          "description": "Whether the parent protocol origin was preserved."
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable notes about the bridge result."
+        }
+      }
+    }
+  }
+}
