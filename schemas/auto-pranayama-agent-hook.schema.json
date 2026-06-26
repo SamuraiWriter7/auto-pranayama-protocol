@@ -1,0 +1,372 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/schemas/auto-pranayama-agent-hook.schema.json",
+  "title": "Auto-Pranayama Agent Hook",
+  "description": "A runtime hook record for connecting AI agents to autonomous compute-breath regulation events.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agent_hook_id",
+    "protocol_version",
+    "timestamp",
+    "hook_context",
+    "invocation_point",
+    "observed_signal",
+    "linked_records",
+    "hook_action",
+    "runtime_decision",
+    "trace_binding",
+    "safety_boundary",
+    "output_contract"
+  ],
+  "properties": {
+    "agent_hook_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this agent hook event."
+    },
+    "protocol_version": {
+      "type": "string",
+      "pattern": "^0\\.4\\.0$",
+      "description": "Protocol version used by this agent hook record."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the agent hook was invoked."
+    },
+    "hook_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_id",
+        "agent_role",
+        "runtime_environment",
+        "task_type"
+      ],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the agent or system invoking the hook."
+        },
+        "agent_role": {
+          "type": "string",
+          "enum": [
+            "assistant_agent",
+            "tool_using_agent",
+            "workflow_agent",
+            "memory_agent",
+            "trace_agent",
+            "orchestrator_agent",
+            "multi_agent_node"
+          ],
+          "description": "Runtime role of the invoking agent."
+        },
+        "runtime_environment": {
+          "type": "string",
+          "enum": [
+            "chat_runtime",
+            "tool_runtime",
+            "workflow_runtime",
+            "agent_loop_runtime",
+            "multi_agent_runtime",
+            "local_runtime",
+            "unknown"
+          ],
+          "description": "Environment where the hook was invoked."
+        },
+        "task_type": {
+          "type": "string",
+          "enum": [
+            "response_generation",
+            "reasoning",
+            "summarization",
+            "tool_use",
+            "memory_retrieval",
+            "trace_expansion",
+            "route_selection",
+            "agent_coordination"
+          ],
+          "description": "Task type active when the hook was invoked."
+        }
+      }
+    },
+    "invocation_point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase",
+        "reason",
+        "before_action"
+      ],
+      "properties": {
+        "phase": {
+          "type": "string",
+          "enum": [
+            "before_generation",
+            "during_generation",
+            "before_tool_use",
+            "after_tool_result",
+            "before_memory_retrieval",
+            "before_trace_expansion",
+            "before_route_adjustment",
+            "during_agent_loop",
+            "before_final_output"
+          ],
+          "description": "Execution phase where the hook was invoked."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable reason why the hook was invoked."
+        },
+        "before_action": {
+          "type": "string",
+          "enum": [
+            "generate_output",
+            "expand_reasoning",
+            "invoke_tool",
+            "retrieve_memory",
+            "expand_trace",
+            "adjust_route",
+            "continue_loop",
+            "finalize_output"
+          ],
+          "description": "Action that was about to occur before the hook intervened."
+        }
+      }
+    },
+    "observed_signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signal_type",
+        "pressure_level",
+        "confidence"
+      ],
+      "properties": {
+        "signal_type": {
+          "type": "string",
+          "enum": [
+            "overlong_output",
+            "repeated_reasoning_pattern",
+            "redundant_trace_expansion",
+            "unnecessary_heavy_route",
+            "loop_repetition",
+            "known_kata_available",
+            "sufficient_trace_available",
+            "quality_risk_from_expansion",
+            "route_cost_increase"
+          ],
+          "description": "Observed signal that caused the hook to engage Auto-Pranayama."
+        },
+        "pressure_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "description": "Estimated computational pressure at hook invocation."
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Confidence that this signal requires compute-breath regulation."
+        }
+      }
+    },
+    "linked_records": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "regulation_trigger_id",
+        "route_adjustment_id",
+        "auto_pranayama_record_id"
+      ],
+      "properties": {
+        "regulation_trigger_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linked Regulation Trigger record ID, or 'none'."
+        },
+        "route_adjustment_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linked Route Adjustment record ID, or 'none'."
+        },
+        "auto_pranayama_record_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Linked Auto-Pranayama Record ID, or 'none'."
+        }
+      }
+    },
+    "hook_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "emits_record",
+        "next_protocol_object"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "create_regulation_trigger",
+            "create_route_adjustment",
+            "create_auto_pranayama_record",
+            "reuse_existing_kata",
+            "switch_route",
+            "attach_trace_only",
+            "stop_recursive_loop",
+            "request_human_boundary"
+          ],
+          "description": "Primary action performed by the hook."
+        },
+        "emits_record": {
+          "type": "boolean",
+          "description": "Whether this hook invocation emits a protocol record."
+        },
+        "next_protocol_object": {
+          "type": "string",
+          "enum": [
+            "auto-pranayama-regulation-trigger",
+            "auto-pranayama-route-adjustment",
+            "auto-pranayama-record",
+            "none"
+          ],
+          "description": "Next protocol object expected after this hook action."
+        }
+      }
+    },
+    "runtime_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "selected_route",
+        "reason"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": [
+            "continue",
+            "reduce",
+            "reroute",
+            "reuse",
+            "trace_only",
+            "stop",
+            "ask_human"
+          ],
+          "description": "Runtime decision made by the agent hook."
+        },
+        "selected_route": {
+          "type": "string",
+          "enum": [
+            "minimal_route",
+            "lightweight_route",
+            "standard_route",
+            "deferred_heavy_route",
+            "trace_only_route",
+            "summary_route",
+            "stop_route",
+            "human_review_route"
+          ],
+          "description": "Route selected by the hook decision."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation of the runtime decision."
+        }
+      }
+    },
+    "trace_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trace_attached",
+        "trace_id",
+        "trace_role"
+      ],
+      "properties": {
+        "trace_attached": {
+          "type": "boolean",
+          "description": "Whether trace evidence was attached to this hook invocation."
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the attached trace, or 'none'."
+        },
+        "trace_role": {
+          "type": "string",
+          "enum": [
+            "hook_auditability",
+            "origin_preservation",
+            "route_justification",
+            "runtime_decision_evidence",
+            "none"
+          ],
+          "description": "Role of the trace in this hook invocation."
+        }
+      }
+    },
+    "safety_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requires_human_review",
+        "allowed_to_apply_automatically",
+        "reason"
+      ],
+      "properties": {
+        "requires_human_review": {
+          "type": "boolean",
+          "description": "Whether human review is required for this hook action."
+        },
+        "allowed_to_apply_automatically": {
+          "type": "boolean",
+          "description": "Whether the agent may apply the hook action automatically."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation of the safety boundary."
+        }
+      }
+    },
+    "output_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "quality_must_be_preserved",
+        "origin_must_be_preserved",
+        "overcompute_must_be_reduced"
+      ],
+      "properties": {
+        "quality_must_be_preserved": {
+          "type": "boolean",
+          "description": "Whether output quality must be preserved after the hook action."
+        },
+        "origin_must_be_preserved": {
+          "type": "boolean",
+          "description": "Whether the original intent or structural origin must be preserved."
+        },
+        "overcompute_must_be_reduced": {
+          "type": "boolean",
+          "description": "Whether the hook action must reduce overcompute."
+        }
+      }
+    }
+  }
+}
