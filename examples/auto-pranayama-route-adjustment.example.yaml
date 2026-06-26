@@ -1,0 +1,43 @@
+route_adjustment_id: "route-adjustment-001"
+protocol_version: "0.3.0"
+timestamp: "2026-06-27T06:00:00+09:00"
+
+trigger_reference:
+  trigger_id: "regulation-trigger-001"
+  trigger_signal: "overlong_output"
+  pressure_level: "medium"
+
+current_route:
+  route_type: "standard_route"
+  route_cost: "medium"
+  reason_for_adjustment: "The current route was producing more explanation than the task required."
+
+adjustment_decision:
+  decision_type: "downgrade_route"
+  decision_basis: "overcompute_reduction"
+  confidence: "high"
+
+selected_route:
+  route_type: "lightweight_route"
+  route_strategy: "answer_directly"
+  expected_cost: "low"
+
+kata_reuse:
+  reused: true
+  kata_id: "concise-structured-response-kata-001"
+  reuse_reason: "A reusable response pattern was sufficient to answer the request without full recomputation."
+
+trace_binding:
+  trace_attached: true
+  trace_id: "trace-route-adjustment-001"
+  trace_role: "route_justification"
+
+expected_result:
+  compute_reduction: "medium"
+  quality_preservation_expected: true
+  origin_preservation_expected: true
+  risk_remaining: "low"
+
+human_boundary:
+  requires_human_review: false
+  reason: "The adjustment only reduces route weight and does not change safety-critical behavior."
