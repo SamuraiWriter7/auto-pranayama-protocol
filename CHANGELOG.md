@@ -6,6 +6,115 @@ This repository follows a candidate-release style during early specification dev
 
 ---
 
+## v0.3.0-candidate
+
+### Added
+
+* Added `Auto-Pranayama Route Adjustment` as the third specification object.
+* Added JSON Schema for route adjustment after regulation trigger detection.
+* Added YAML example for switching from a standard route to a lightweight route.
+* Updated validation script to validate v0.1, v0.2, and v0.3 examples.
+* Expanded the protocol from trigger detection into route-level self-regulation.
+* Updated README documentation to reflect the v0.3 Route Adjustment Layer.
+
+### Concept
+
+v0.3 introduces the **Route Adjustment Layer**.
+
+Where v0.2 records why regulation should begin, v0.3 records how the computational route should be adjusted.
+
+The core question is:
+
+```text
+Which route should computation take after it detects overcompute?
+```
+
+Japanese:
+
+```text
+過剰計算を検知したあと、計算はどの経路を通るべきか？
+```
+
+### Flow Extension
+
+v0.1 defined the self-regulation flow:
+
+```text
+Observe → Detect → Adjust → Reuse → Route → Trace → Preserve
+```
+
+v0.2 focused on the trigger flow:
+
+```text
+Context → Signal → Pressure → Risk → Recommendation → Boundary
+```
+
+v0.3 focuses on the route adjustment flow:
+
+```text
+Trigger → Current Route → Decision → Selected Route → Kata Reuse → Trace → Expected Result
+```
+
+Japanese:
+
+```text
+発火 → 現在経路 → 判断 → 選択経路 → 型再利用 → 痕跡 → 期待結果
+```
+
+### v0.3 Scope
+
+The v0.3 Route Adjustment captures:
+
+* trigger reference
+* current route
+* route cost
+* adjustment decision
+* selected route
+* kata reuse
+* trace binding
+* expected compute reduction
+* quality preservation expectation
+* origin preservation expectation
+* human review boundary
+
+### Validation
+
+The validation gate has passed with three specification objects:
+
+* `Auto-Pranayama Record`
+* `Auto-Pranayama Regulation Trigger`
+* `Auto-Pranayama Route Adjustment`
+
+Validation can be run locally with:
+
+```bash
+python scripts/validate_examples.py
+```
+
+GitHub Actions also validates the schemas and examples automatically on push and pull request.
+
+### Status
+
+This is the third candidate release of the protocol.
+
+Auto-Pranayama can now describe:
+
+```text
+v0.1: The breath was regulated.
+v0.2: The moment of regulation was detected.
+v0.3: The route of regulation was selected.
+```
+
+Japanese:
+
+```text
+v0.1: 呼吸は整えられた。
+v0.2: 呼吸を整えるべき瞬間が検知された。
+v0.3: 呼吸を整えるための経路が選択された。
+```
+
+---
+
 ## v0.2.0-candidate
 
 ### Added
@@ -69,7 +178,7 @@ The v0.2 Regulation Trigger captures:
 
 ### Validation
 
-The validation gate has passed with both specification objects:
+The validation gate passed with both specification objects:
 
 * `Auto-Pranayama Record`
 * `Auto-Pranayama Regulation Trigger`
@@ -84,9 +193,9 @@ GitHub Actions also validates the schemas and examples automatically on push and
 
 ### Status
 
-This is the second candidate release of the protocol.
+This was the second candidate release of the protocol.
 
-Auto-Pranayama can now describe not only how regulation occurred, but why regulation was triggered.
+Auto-Pranayama could now describe not only how regulation occurred, but why regulation was triggered.
 
 ---
 
@@ -179,8 +288,10 @@ It did not yet define collective rhythm, exhalation, or distributed synchronizat
 
 ### Planned
 
-* Add v0.3 Route Adjustment Layer.
-* Add additional examples for route switching, kata reuse, trace sufficiency, and redundant loop stopping.
+* Add v0.4 Agent Hook Layer.
 * Define agent-facing hooks for runtime detection of overcompute.
-* Clarify relationship with `computational-pranayama-protocol`.
-* Prepare bridge documentation for related protocols such as `exhalation-layer-protocol` and `collective-pranayama-protocol`.
+* Add examples for automatic route switching and redundant loop stopping.
+* Clarify runtime integration with AI agents and orchestration systems.
+* Add v0.5 Parent Protocol Bridge.
+* Prepare bridge documentation for related protocols such as `computational-pranayama-protocol`, `exhalation-layer-protocol`, and `collective-pranayama-protocol`.
+
