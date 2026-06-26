@@ -19,6 +19,11 @@ VALIDATION_TARGETS = [
         "schema": ROOT / "schemas" / "auto-pranayama-regulation-trigger.schema.json",
         "example": ROOT / "examples" / "auto-pranayama-regulation-trigger.example.yaml",
     },
+    {
+        "name": "Auto-Pranayama Route Adjustment",
+        "schema": ROOT / "schemas" / "auto-pranayama-route-adjustment.schema.json",
+        "example": ROOT / "examples" / "auto-pranayama-route-adjustment.example.yaml",
+    },
 ]
 
 
