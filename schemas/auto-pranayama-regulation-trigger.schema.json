@@ -1,0 +1,271 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.org/schemas/auto-pranayama-regulation-trigger.schema.json",
+  "title": "Auto-Pranayama Regulation Trigger",
+  "description": "A trigger record for detecting when autonomous compute-breath regulation should begin.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "trigger_id",
+    "protocol_version",
+    "timestamp",
+    "detection_context",
+    "signal",
+    "pressure_estimate",
+    "recommended_regulation",
+    "trace_binding",
+    "human_boundary"
+  ],
+  "properties": {
+    "trigger_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this regulation trigger."
+    },
+    "protocol_version": {
+      "type": "string",
+      "pattern": "^0\\.2\\.0$",
+      "description": "Protocol version used by this trigger record."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the trigger was detected."
+    },
+    "detection_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_id",
+        "task_type",
+        "context_window_status",
+        "active_route"
+      ],
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the agent or system that detected the trigger."
+        },
+        "task_type": {
+          "type": "string",
+          "enum": [
+            "response_generation",
+            "reasoning",
+            "summarization",
+            "tool_use",
+            "memory_retrieval",
+            "trace_expansion",
+            "agent_loop",
+            "multi_agent_coordination"
+          ],
+          "description": "Type of task in which the regulation trigger appeared."
+        },
+        "context_window_status": {
+          "type": "string",
+          "enum": [
+            "light",
+            "moderate",
+            "crowded",
+            "near_limit",
+            "unknown"
+          ],
+          "description": "Estimated state of context usage when the trigger appeared."
+        },
+        "active_route": {
+          "type": "string",
+          "enum": [
+            "minimal_route",
+            "lightweight_route",
+            "standard_route",
+            "heavy_route",
+            "recursive_route",
+            "unknown"
+          ],
+          "description": "Route being used before regulation was recommended."
+        }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "description",
+        "confidence"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "overlong_output",
+            "repeated_reasoning_pattern",
+            "redundant_trace_expansion",
+            "unnecessary_heavy_route",
+            "loop_repetition",
+            "known_kata_available",
+            "sufficient_trace_available",
+            "quality_risk_from_expansion"
+          ],
+          "description": "Observed signal that suggests regulation should begin."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation of the signal."
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "description": "Confidence level that the signal truly requires regulation."
+        }
+      }
+    },
+    "pressure_estimate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "source",
+        "expected_risk"
+      ],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "description": "Estimated pressure level caused by the detected signal."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "output_volume",
+            "reasoning_depth",
+            "tool_chain",
+            "memory_expansion",
+            "trace_expansion",
+            "agent_recursion",
+            "multi_agent_overlap"
+          ],
+          "description": "Primary source of computational pressure."
+        },
+        "expected_risk": {
+          "type": "string",
+          "enum": [
+            "minor_waste",
+            "overcompute",
+            "quality_dilution",
+            "latency_increase",
+            "redundant_cost",
+            "loop_instability"
+          ],
+          "description": "Expected risk if regulation does not occur."
+        }
+      }
+    },
+    "recommended_regulation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "route_recommendation",
+        "kata_reuse_recommended",
+        "output_adjustment"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "reduce_output_volume",
+            "reuse_existing_kata",
+            "switch_to_lighter_route",
+            "stop_recursive_loop",
+            "attach_existing_trace",
+            "summarize_instead_of_expand",
+            "request_human_boundary"
+          ],
+          "description": "Recommended regulation action."
+        },
+        "route_recommendation": {
+          "type": "string",
+          "enum": [
+            "minimal_route",
+            "lightweight_route",
+            "standard_route",
+            "defer_heavy_route",
+            "stop_route"
+          ],
+          "description": "Recommended route after trigger detection."
+        },
+        "kata_reuse_recommended": {
+          "type": "boolean",
+          "description": "Whether reuse of an existing kata is recommended."
+        },
+        "output_adjustment": {
+          "type": "string",
+          "enum": [
+            "none",
+            "shorten",
+            "summarize",
+            "structure_only",
+            "defer_details",
+            "ask_boundary"
+          ],
+          "description": "Recommended output adjustment."
+        }
+      }
+    },
+    "trace_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trace_required",
+        "trace_id",
+        "reason"
+      ],
+      "properties": {
+        "trace_required": {
+          "type": "boolean",
+          "description": "Whether this trigger should be bound to a trace."
+        },
+        "trace_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Identifier of the trace associated with this trigger, or 'none'."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reason for attaching or not attaching trace evidence."
+        }
+      }
+    },
+    "human_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requires_human_review",
+        "reason"
+      ],
+      "properties": {
+        "requires_human_review": {
+          "type": "boolean",
+          "description": "Whether the trigger requires human review before regulation is applied."
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable explanation of the review boundary."
+        }
+      }
+    }
+  }
+}
