@@ -2,7 +2,7 @@
 
 **Auto-Pranayama Protocol** is a lightweight specification for autonomous compute-breath regulation in AI agents.
 
-It defines how an AI system can detect computational pressure, reduce overcompute, reuse existing kata, choose lighter reasoning or execution routes, attach trace evidence, invoke runtime hooks, and preserve output quality without unnecessary expansion.
+It defines how an AI system can detect computational pressure, reduce overcompute, reuse existing kata, choose lighter reasoning or execution routes, attach trace evidence, invoke runtime hooks, return to the parent breath core, and preserve output quality without unnecessary expansion.
 
 > Let computation regulate its own breath.
 > 計算に、自らの呼吸を整えさせよ。
@@ -69,12 +69,14 @@ It asks them to notice when enough computation has already occurred.
 ## Current Version
 
 ```text
-v0.4.0-candidate
+v0.5.0-candidate
 ```
 
-v0.4 introduces the **Agent Hook Layer**.
+v0.5 introduces the **Parent Protocol Bridge**.
 
-Where v0.3 records how a computational route should be adjusted, v0.4 records where and how an AI agent invokes Auto-Pranayama during runtime.
+Where v0.4 records where an AI agent invokes Auto-Pranayama during runtime, v0.5 records how self-regulated computation returns to the parent Computational Pranayama Protocol.
+
+With v0.5, the first Auto-Pranayama arc is complete.
 
 ---
 
@@ -158,7 +160,7 @@ Japanese:
 
 ### v0.4 — Agent Hook Layer
 
-v0.4 introduces the **Agent Hook Layer**.
+v0.4 introduced the **Agent Hook Layer**.
 
 An Agent Hook captures:
 
@@ -185,6 +187,38 @@ Japanese:
 
 ```text
 AIエージェントは、実行中のどこで計算呼吸の調整を呼び出すべきか？
+```
+
+### v0.5 — Parent Protocol Bridge
+
+v0.5 introduces the **Parent Protocol Bridge**.
+
+A Parent Protocol Bridge captures:
+
+* the parent protocol reference
+* the child protocol reference
+* linked Auto-Pranayama records
+* how Breath, Kata, Route, Trace, and Return are inherited
+* whether breath was preserved
+* whether kata was reused
+* whether the route was lightened
+* whether trace evidence was attached
+* whether the event can return to the parent protocol
+* what boundaries are intentionally not included
+* whether the first Auto-Pranayama arc is closed
+
+This layer turns Auto-Pranayama from an agent-facing runtime interface into a complete derived arc of the parent computational breathing protocol.
+
+The core question of v0.5 is:
+
+```text
+How does self-regulated computation return to the parent breath core?
+```
+
+Japanese:
+
+```text
+自己調息された計算は、どのように親の呼吸核へ還流するのか？
 ```
 
 ---
@@ -243,6 +277,18 @@ Japanese:
 
 ```text
 実行環境 → 呼び出し点 → 信号 → 関連記録 → フック動作 → 実行時判断 → 出力契約
+```
+
+v0.5 focuses on the parent bridge flow:
+
+```text
+Parent Arc → Child Records → Inheritance Map → Alignment → Return Flow → Boundary → First Arc Closure
+```
+
+Japanese:
+
+```text
+親アーク → 子記録 → 継承対応 → 整合 → 還流 → 境界 → 第一アーク完了
 ```
 
 ---
@@ -313,6 +359,21 @@ Example use cases:
 * switching route automatically after detecting overcompute
 * binding a runtime decision to trace evidence
 * enforcing an output contract that preserves quality and origin
+
+### Auto-Pranayama Parent Protocol Bridge
+
+The fifth record type in this protocol.
+
+It is used when Auto-Pranayama self-regulation records are linked back to the parent Computational Pranayama Protocol.
+
+Example use cases:
+
+* linking Auto-Pranayama records to the parent Breath-Kata-Route-Trace-Return arc
+* documenting how Breath, Kata, Route, Trace, and Return are inherited
+* confirming that a self-regulated computation can return to the parent breath core
+* preserving origin while reducing overcompute
+* closing the first Auto-Pranayama arc without expanding parent scope
+* keeping collective rhythm and exhalation outside this repository
 
 ---
 
@@ -500,6 +561,73 @@ output_contract:
 
 ---
 
+## Example: Auto-Pranayama Parent Protocol Bridge
+
+```yaml
+parent_bridge_id: "parent-bridge-001"
+protocol_version: "0.5.0"
+timestamp: "2026-06-27T07:00:00+09:00"
+
+parent_protocol:
+  name: "computational-pranayama-protocol"
+  version: "v0.5.0-candidate"
+  arc: "Breath-Kata-Route-Trace-Return"
+
+child_protocol:
+  name: "auto-pranayama-protocol"
+  version: "0.5.0"
+  role: "self-regulation-extension"
+
+linked_records:
+  auto_pranayama_record_id: "auto-pranayama-001"
+  regulation_trigger_id: "regulation-trigger-001"
+  route_adjustment_id: "route-adjustment-001"
+  agent_hook_id: "agent-hook-001"
+
+inheritance_map:
+  breath:
+    mapped_from: "auto_pranayama_record"
+    description: "The self-regulation record preserves the computational breath by reducing overcompute."
+  kata:
+    mapped_from: "route_adjustment"
+    description: "The route adjustment reuses an existing concise response kata instead of regenerating from scratch."
+  route:
+    mapped_from: "route_adjustment"
+    description: "The selected route is changed from a standard route to a lightweight route."
+  trace:
+    mapped_from: "agent_hook"
+    description: "The agent hook attaches runtime trace evidence for auditability."
+  return:
+    mapped_from: "auto_pranayama_record"
+    description: "The regulated output returns to the parent protocol as a preserved and lighter computational event."
+
+bridge_alignment:
+  breath_preserved: true
+  kata_reused: true
+  route_lightened: true
+  trace_attached: true
+  return_enabled: true
+
+return_flow:
+  returns_to_parent: true
+  return_target: "return_layer"
+  return_reason: "The self-regulated event can return to the parent Breath-Kata-Route-Trace-Return arc without expanding the parent protocol scope."
+
+boundary:
+  does_not_extend_parent_scope: true
+  does_not_define_collective_rhythm: true
+  does_not_define_exhalation: true
+  reason: "This bridge only links Auto-Pranayama back to the parent protocol. Collective rhythm and exhalation remain separate protocol candidates."
+
+result:
+  first_arc_closed: true
+  quality_preserved: true
+  origin_preserved: true
+  notes: "The first Auto-Pranayama arc is closed by returning self-regulation records to the parent Computational Pranayama Protocol."
+```
+
+---
+
 ## Repository Structure
 
 ```text
@@ -510,12 +638,14 @@ auto-pranayama-protocol/
 │  ├─ auto-pranayama-record.schema.json
 │  ├─ auto-pranayama-regulation-trigger.schema.json
 │  ├─ auto-pranayama-route-adjustment.schema.json
-│  └─ auto-pranayama-agent-hook.schema.json
+│  ├─ auto-pranayama-agent-hook.schema.json
+│  └─ auto-pranayama-parent-bridge.schema.json
 ├─ examples/
 │  ├─ auto-pranayama-record.example.yaml
 │  ├─ auto-pranayama-regulation-trigger.example.yaml
 │  ├─ auto-pranayama-route-adjustment.example.yaml
-│  └─ auto-pranayama-agent-hook.example.yaml
+│  ├─ auto-pranayama-agent-hook.example.yaml
+│  └─ auto-pranayama-parent-bridge.example.yaml
 ├─ scripts/
 │  └─ validate_examples.py
 └─ .github/
@@ -544,6 +674,7 @@ Auto-Pranayama Record
 Auto-Pranayama Regulation Trigger
 Auto-Pranayama Route Adjustment
 Auto-Pranayama Agent Hook
+Auto-Pranayama Parent Protocol Bridge
 ```
 
 ---
@@ -621,6 +752,18 @@ Japanese:
 ここが、エージェントが計算呼吸の調整を呼び出す場所である。
 ```
 
+v0.5 adds return to the parent breath core:
+
+```text
+This is how self-regulated computation returns to the parent protocol.
+```
+
+Japanese:
+
+```text
+これが、自己調息された計算が親プロトコルへ還流する道である。
+```
+
 In this sense, Auto-Pranayama is not an acceleration protocol.
 
 It is a restraint protocol.
@@ -661,10 +804,44 @@ v0.4 clarifies runtime invocation:
 Runtime → Invocation Point → Signal → Linked Records → Hook Action → Runtime Decision → Output Contract
 ```
 
+v0.5 closes the first Auto-Pranayama arc:
+
+```text
+Parent Arc → Child Records → Inheritance Map → Alignment → Return Flow → Boundary → First Arc Closure
+```
+
 Japanese:
 
 ```text
-実行環境 → 呼び出し点 → 信号 → 関連記録 → フック動作 → 実行時判断 → 出力契約
+親アーク → 子記録 → 継承対応 → 整合 → 還流 → 境界 → 第一アーク完了
+```
+
+---
+
+## Boundary
+
+v0.5 intentionally closes the first Auto-Pranayama arc.
+
+This repository does not define:
+
+* collective rhythm
+* exhalation or exhaust handling
+* distributed synchronization
+
+Those concerns remain separate protocol candidates.
+
+This boundary keeps the protocol from overexpanding.
+
+In short:
+
+```text
+Do not make the breath core hyperventilate.
+```
+
+Japanese:
+
+```text
+呼吸核を過呼吸にするな。
 ```
 
 ---
@@ -674,7 +851,7 @@ Japanese:
 Current version:
 
 ```text
-v0.4.0-candidate
+v0.5.0-candidate
 ```
 
 The repository now defines:
@@ -683,10 +860,9 @@ The repository now defines:
 * v0.2 Regulation Trigger Layer
 * v0.3 Route Adjustment Layer
 * v0.4 Agent Hook Layer
-
-Future versions may introduce:
-
 * v0.5 Parent Protocol Bridge
+
+The first Auto-Pranayama arc is now complete.
 
 ---
 
@@ -699,3 +875,4 @@ Recommended license:
 ```text
 MIT License
 ```
+
