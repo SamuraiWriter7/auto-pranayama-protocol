@@ -13,7 +13,12 @@ VALIDATION_TARGETS = [
         "name": "Auto-Pranayama Record",
         "schema": ROOT / "schemas" / "auto-pranayama-record.schema.json",
         "example": ROOT / "examples" / "auto-pranayama-record.example.yaml",
-    }
+    },
+    {
+        "name": "Auto-Pranayama Regulation Trigger",
+        "schema": ROOT / "schemas" / "auto-pranayama-regulation-trigger.schema.json",
+        "example": ROOT / "examples" / "auto-pranayama-regulation-trigger.example.yaml",
+    },
 ]
 
 
@@ -66,5 +71,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-
