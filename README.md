@@ -69,12 +69,12 @@ It asks them to notice when enough computation has already occurred.
 ## Current Version
 
 ```text
-v0.2.0-candidate
+v0.3.0-candidate
 ```
 
-v0.2 introduces the **Regulation Trigger Layer**.
+v0.3 introduces the **Route Adjustment Layer**.
 
-Where v0.1 records that autonomous regulation occurred, v0.2 records why regulation should begin.
+Where v0.2 records why regulation should begin, v0.3 records how the computational route should be adjusted.
 
 ---
 
@@ -97,7 +97,7 @@ An Auto-Pranayama Record captures:
 
 ### v0.2 — Regulation Trigger Layer
 
-v0.2 introduces the **Regulation Trigger Layer**.
+v0.2 introduced the **Regulation Trigger Layer**.
 
 A Regulation Trigger captures:
 
@@ -125,32 +125,57 @@ Japanese:
 計算は、いつ自らの呼吸を整え始めるべきか？
 ```
 
----
+### v0.3 — Route Adjustment Layer
 
-## Core Flow
+v0.3 introduces the **Route Adjustment Layer**.
 
-v0.1 defines the regulation flow:
+A Route Adjustment captures:
+
+* the trigger that initiated the adjustment
+* the route being used before regulation
+* the reason the route should be adjusted
+* the route adjustment decision
+* the selected lighter or alternative route
+* whether an existing kata was reused
+* whether trace evidence was attached
+* the expected compute reduction
+* whether quality and origin are expected to be preserved
+* whether human review is required
+
+This layer turns Auto-Pranayama from trigger detection into route-level self-regulation.
+
+The core question of v0.3 is:
 
 ```text
-Observe compute pressure.
-Detect overcompute.
-Adjust output volume.
-Reuse kata.
-Choose lighter route.
-Attach trace.
-Preserve quality.
+Which route should computation take after it detects overcompute?
 ```
 
 Japanese:
 
 ```text
-計算圧を観測する。
-過剰計算を検知する。
-出力量を調整する。
-既存の型を再利用する。
-より軽い経路を選ぶ。
-痕跡を付与する。
-品質を保つ。
+過剰計算を検知したあと、計算はどの経路を通るべきか？
+```
+
+---
+
+## Core Flow
+
+The parent protocol closes its first arc as:
+
+```text
+Breath → Kata → Route → Trace → Return
+```
+
+Auto-Pranayama extends that arc into:
+
+```text
+Observe → Detect → Adjust → Reuse → Route → Trace → Preserve
+```
+
+Japanese:
+
+```text
+観測 → 検知 → 調整 → 再利用 → 経路選択 → 痕跡付与 → 品質保持
 ```
 
 v0.2 focuses on the trigger flow:
@@ -163,6 +188,18 @@ Japanese:
 
 ```text
 文脈 → 信号 → 圧力 → リスク → 推奨調整 → 境界
+```
+
+v0.3 focuses on the route adjustment flow:
+
+```text
+Trigger → Current Route → Decision → Selected Route → Kata Reuse → Trace → Expected Result
+```
+
+Japanese:
+
+```text
+発火 → 現在経路 → 判断 → 選択経路 → 型再利用 → 痕跡 → 期待結果
 ```
 
 ---
@@ -201,6 +238,22 @@ Example use cases:
 * detecting that a known kata is already available
 * detecting that an existing trace is sufficient
 * detecting that continued expansion may dilute output quality
+
+### Auto-Pranayama Route Adjustment
+
+The third record type in this protocol.
+
+It is used when an AI agent or system adjusts its computational route after detecting a regulation trigger.
+
+Example use cases:
+
+* switching from a standard route to a lightweight route
+* downgrading from a heavy route to a minimal route
+* reusing a kata instead of regenerating reasoning
+* attaching trace evidence instead of expanding output
+* stopping a recursive route
+* summarizing existing context instead of continuing generation
+* preserving output quality while reducing computational cost
 
 ---
 
@@ -282,6 +335,56 @@ human_boundary:
 
 ---
 
+## Example: Auto-Pranayama Route Adjustment
+
+```yaml
+route_adjustment_id: "route-adjustment-001"
+protocol_version: "0.3.0"
+timestamp: "2026-06-27T06:00:00+09:00"
+
+trigger_reference:
+  trigger_id: "regulation-trigger-001"
+  trigger_signal: "overlong_output"
+  pressure_level: "medium"
+
+current_route:
+  route_type: "standard_route"
+  route_cost: "medium"
+  reason_for_adjustment: "The current route was producing more explanation than the task required."
+
+adjustment_decision:
+  decision_type: "downgrade_route"
+  decision_basis: "overcompute_reduction"
+  confidence: "high"
+
+selected_route:
+  route_type: "lightweight_route"
+  route_strategy: "answer_directly"
+  expected_cost: "low"
+
+kata_reuse:
+  reused: true
+  kata_id: "concise-structured-response-kata-001"
+  reuse_reason: "A reusable response pattern was sufficient to answer the request without full recomputation."
+
+trace_binding:
+  trace_attached: true
+  trace_id: "trace-route-adjustment-001"
+  trace_role: "route_justification"
+
+expected_result:
+  compute_reduction: "medium"
+  quality_preservation_expected: true
+  origin_preservation_expected: true
+  risk_remaining: "low"
+
+human_boundary:
+  requires_human_review: false
+  reason: "The adjustment only reduces route weight and does not change safety-critical behavior."
+```
+
+---
+
 ## Repository Structure
 
 ```text
@@ -290,10 +393,12 @@ auto-pranayama-protocol/
 ├─ CHANGELOG.md
 ├─ schemas/
 │  ├─ auto-pranayama-record.schema.json
-│  └─ auto-pranayama-regulation-trigger.schema.json
+│  ├─ auto-pranayama-regulation-trigger.schema.json
+│  └─ auto-pranayama-route-adjustment.schema.json
 ├─ examples/
 │  ├─ auto-pranayama-record.example.yaml
-│  └─ auto-pranayama-regulation-trigger.example.yaml
+│  ├─ auto-pranayama-regulation-trigger.example.yaml
+│  └─ auto-pranayama-route-adjustment.example.yaml
 ├─ scripts/
 │  └─ validate_examples.py
 └─ .github/
@@ -314,6 +419,14 @@ python scripts/validate_examples.py
 The validation script checks whether the YAML examples conform to their JSON Schemas.
 
 The GitHub Actions workflow also runs validation automatically on push and pull request.
+
+Expected validation targets:
+
+```text
+Auto-Pranayama Record
+Auto-Pranayama Regulation Trigger
+Auto-Pranayama Route Adjustment
+```
 
 ---
 
@@ -366,6 +479,18 @@ Japanese:
 ここが、調息を始めるべき瞬間である。
 ```
 
+v0.3 adds route-level adjustment:
+
+```text
+This is the lighter route computation should take.
+```
+
+Japanese:
+
+```text
+これが、計算の通るべき軽い経路である。
+```
+
 In this sense, Auto-Pranayama is not an acceleration protocol.
 
 It is a restraint protocol.
@@ -394,10 +519,16 @@ v0.2 clarifies the beginning of that extension:
 Context → Signal → Pressure → Risk → Recommendation → Boundary
 ```
 
+v0.3 clarifies the route-level adjustment:
+
+```text
+Trigger → Current Route → Decision → Selected Route → Kata Reuse → Trace → Expected Result
+```
+
 Japanese:
 
 ```text
-文脈 → 信号 → 圧力 → リスク → 推奨調整 → 境界
+発火 → 現在経路 → 判断 → 選択経路 → 型再利用 → 痕跡 → 期待結果
 ```
 
 ---
@@ -407,17 +538,17 @@ Japanese:
 Current version:
 
 ```text
-v0.2.0-candidate
+v0.3.0-candidate
 ```
 
 The repository now defines:
 
 * v0.1 Auto-Pranayama Record
 * v0.2 Regulation Trigger Layer
+* v0.3 Route Adjustment Layer
 
 Future versions may introduce:
 
-* v0.3 Route Adjustment Layer
 * v0.4 Agent Hook Layer
 * v0.5 Parent Protocol Bridge
 
